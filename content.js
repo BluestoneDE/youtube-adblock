@@ -121,15 +121,20 @@ async function checkForAds() {
                 for (const skipButton of skipButtons) {
                     if (skipButton && !skipButton.clicked && skipButton.style.display !== "none") {
                         skipButton.clicked = true;
-                        if (skipBehavior === 1) {
-                            skipButton.click();
-                            console.log("YtAd detected, clicking skip button (" + skipButton.className + ")");
-                        } else if (skipBehavior === 2) {
-                            skipVideo(video);
-                        } else if (skipBehavior === 0) {
-                            console.log("YtAd detected, skip button detected but the skip behavior is set to 'do nothing'");
-                        } else {
-                            console.error("YtAd detected, invalid skip behavior: " + skipBehavior);
+                        switch (skipBehavior) {
+                            case 0:
+                                console.log("YtAd detected, skip button detected but the skip behavior is set to 'Do Nothing'");
+                                break;
+                            case 1:
+                                skipButton.firstChild.click();
+                                console.log("YtAd detected, clicking skip button (" + skipButton.className + ")");
+                                break;
+                            case 2:
+                                skipVideo(video);
+                                break;
+                            default:
+                                console.error("YtAd detected, invalid skip behavior: " + skipBehavior);
+                                break;
                         }
                     }
                 }
